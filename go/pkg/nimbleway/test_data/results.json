@@ -1,0 +1,77 @@
+{
+  "status": "success",
+  "html_content": "somehtml",
+  "parsing": {
+    "status": "success",
+    "entities": {
+      "OrganicResult": [
+        {
+          "displayed_url": "https://www.yelp.com \u203a ... \u203a Optometrists",
+          "entityType": "OrganicResult",
+          "position": 1,
+          "snippet": "Best Optometrists in San Mateo, CA - Eyeworks of San Mateo, Hilary Chiem, OD, Clear Optometry, Parkside Optometry, Site for Sore Eyes - San Mateo,\u00a0...",
+          "title": "The Best 10 Optometrists in San Mateo, California - Yelp",
+          "url": "https://www.yelp.com/search?cflt=optometrists&find_loc=San+Mateo%2C+CA"
+        },
+        {
+          "displayed_url": "https://www.parksideoptometry.com",
+          "entityType": "OrganicResult",
+          "position": 3,
+          "sitelinks": [
+            {
+              "title": "About Us",
+              "url": "https://www.parksideoptometry.com/about-us.html"
+            },
+            {
+              "title": "Eyecare Services",
+              "url": "https://www.parksideoptometry.com/services.html"
+            }
+          ],
+          "snippet": "Welcome to Parkside Optometry Your Optometrists in San Mateo, California 94403. Call us at 650-830-5675 today. ... Parkside Optometry is a full service eye and\u00a0...",
+          "title": "San Mateo Optometrists, Parkside Optometry",
+          "url": "https://www.parksideoptometry.com/"
+        }
+      ],
+      "Pagination": [
+        {
+          "current_page": 1,
+          "entityType": "Pagination",
+          "next_page_url": "/search?q=optometrist+in+san+mateo&hl=en&ei=hPtRY_XkCMDV5NoP88OPsA4&start=10&sa=N&ved=2ahUKEwj1ttSgm_D6AhXAKlkFHfPhA-YQ8NMDegQIARAW",
+          "other_page_urls": {
+            "2": "/search?q=optometrist+in+san+mateo&hl=en&ei=hPtRY_XkCMDV5NoP88OPsA4&start=10&sa=N&ved=2ahUKEwj1ttSgm_D6AhXAKlkFHfPhA-YQ8tMDegQIARAE",
+            "3": "/search?q=optometrist+in+san+mateo&hl=en&ei=hPtRY_XkCMDV5NoP88OPsA4&start=20&sa=N&ved=2ahUKEwj1ttSgm_D6AhXAKlkFHfPhA-YQ8tMDegQIARAG"
+          }
+        }
+      ],
+      "RelatedSearch": [
+        {
+          "entityType": "RelatedSearch",
+          "query": "optometrist near me",
+          "url": "/search?hl=en&q=Optometrist+near+me&sa=X&ved=2ahUKEwj1ttSgm_D6AhXAKlkFHfPhA-YQ1QJ6BAg2EAE"
+        },
+        {
+          "entityType": "RelatedSearch",
+          "query": "ophthalmologist",
+          "url": "/search?hl=en&q=Ophthalmologist&sa=X&ved=2ahUKEwj1ttSgm_D6AhXAKlkFHfPhA-YQ1QJ6BAg9EAE"
+        }
+      ],
+      "SearchInformation": [
+        {
+          "entityType": "SearchInformation",
+          "query_displayed": "optometrist in san mateo",
+          "time_taken_displayed": "0.47 seconds",
+          "total_results": "About 774,000 results "
+        }
+      ]
+    },
+    "total_entities_count": 19,
+    "entities_count": {
+      "OrganicResult": 9,
+      "Pagination": 1,
+      "RelatedSearch": 8,
+      "SearchInformation": 1
+    },
+    "metrics": {}
+  },
+  "url": "https://www.google.com/search?q=optometrist+in+san+mateo&hl=en"
+}
