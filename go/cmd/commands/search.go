@@ -83,6 +83,6 @@ func NewSearchCmd() *cobra.Command {
 
 	cmd.Flags().StringVarP(&secretsFile, "secrets", "", defaultSecretsFile, "The file containing the nimbleway username and password.")
 	cmd.Flags().StringVarP(&query, "query", "q", "optometrist in san mateo", "The query to send to Google")
-	cmd.Flags().StringVarP(&outFile, "outfile", "o", "results.jsonl", "The file to write the results to")
+	cmd.Flags().StringVarP(&outFile, "outfile", "o", "results/results.jsonl", "The file to write the results to")
 	return cmd
 }

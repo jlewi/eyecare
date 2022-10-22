@@ -15,7 +15,7 @@ func ToSites(results *SERPResults) ([]api.Site, error) {
 	sites := make([]api.Site, 0, len(results.Parsing.Entities.OrganicResult))
 	log := zapr.NewLogger(zap.L())
 
-	excludedDomains := map[string]bool{"yelp.com": true, "zocdoc.com": true}
+	excludedDomains := map[string]bool{"yelp.com": true, "zocdoc.com": true, "healthgrades.com": true}
 
 	for _, r := range results.Parsing.Entities.OrganicResult {
 		log.Info("Parsing OrganicResult", "url", r.Url)
