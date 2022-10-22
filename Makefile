@@ -12,12 +12,12 @@ build-go: build-dir
 	CGO_ENABLED=0 go build -o $(BUILD)/eycare github.com/jlewi/eyecare/go/cmd/
 
 tidy-go:
-	cd go && gofmt -s -w .
-	cd go && goimports -w .
+	gofmt -s -w .
+	goimports -w .
 	
 lint-go:
 	# golangci-lint automatically searches up the root tree for configuration files.
-	cd go && golangci-lint run
+	golangci-lint run
 
 test-go:
-	cd go && go test -v ./...
+	go test -v ./...

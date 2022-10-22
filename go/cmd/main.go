@@ -3,12 +3,11 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/go-logr/zapr"
+	"github.com/jlewi/eyecare/go/cmd/commands"
 	"github.com/jlewi/eyecare/go/pkg/helpers"
-	"github.com/jlewi/eyecare/go/pkg/nimbleway"
+	"github.com/jlewi/eyecare/go/pkg/scraping"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	url2 "net/url"
@@ -32,43 +31,6 @@ func newRootCmd() *cobra.Command {
 				panic(err)
 			}
 		},
-		Run: func(cmd *cobra.Command, args []string) {
-			err := func() error {
-				// TODO(jeremy): Make this a command line flag.
-				secretsFile := "/Users/jlewi/secrets/nimbleway.json"
-				contents, err := os.ReadFile(secretsFile)
-				if err != nil {
-					return errors.Wrapf(err, "Failed to read file %v", secretsFile)
-				}
-				secrets := &nimbleway.SecretsFile{}
-				if err := json.Unmarshal(contents, secrets); err != nil {
-					return errors.Wrapf(err, "Failed to unmarshal file %v", secretsFile)
-				}
-				c := &nimbleway.Client{
-					Secrets: *secrets,
-				}
-
-				if err := c.GetToken(); err != nil {
-					return errors.Wrapf(err, "Failed to get nimbleway token")
-				}
-
-				// TODO(jeremy): Make this a command line flag.
-				req := nimbleway.NewRequest("optometrist in san mateo")
-				results, err := c.Serp(context.Background(), req)
-				if err != nil {
-					return errors.Wrapf(err, "SERP request failed")
-				}
-
-				// TODO(jeremy): Make this a command line flag
-				if err := os.WriteFile("/tmp/results.json", []byte(results), 0x777); err != nil {
-					return errors.Wrapf(err, "Failed to write results to /tmp/results.json")
-				}
-				return nil
-			}()
-			if err != nil {
-				fmt.Fprintf(os.Stdout, "Failed with error:\n%+v", err)
-			}
-		},
 	}
 
 	rootCmd.PersistentFlags().StringVarP(&level, "level", "", "info", "The logging level.")
@@ -89,11 +51,7 @@ func newScrapeCmd() *cobra.Command {
 				if err != nil {
 					return errors.Wrapf(err, "Failed to parse url %+v", u)
 				}
-				domainPieces := strings.Split(u.Host, ".")
-				if strings.ToLower(domainPieces[0]) == "www" {
-					domainPieces = domainPieces[1:len(domainPieces)]
-				}
-				domain := strings.Join(domainPieces, ".")
+				domain := scraping.HostToDomain(u.Host)
 
 				dName := strings.Replace(domain, ".", "_", -1)
 
@@ -174,6 +132,7 @@ func newScrapeCmd() *cobra.Command {
 func main() {
 	rootCmd := newRootCmd()
 	rootCmd.AddCommand(newScrapeCmd())
+	rootCmd.AddCommand(commands.NewSearchCmd())
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Printf("Command failed with error: %+v", err)
 		os.Exit(1)

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/pkg/errors"
 	"io"
 	"net/http"
@@ -136,27 +135,27 @@ func (c *Client) GetToken() error {
 }
 
 // Serp executes a SERP request
-func (c *Client) Serp(ctx context.Context, req *SERPRequest) (string, error) {
+func (c *Client) Serp(ctx context.Context, req *SERPRequest) (*SERPResults, error) {
 	payload, err := json.Marshal(req)
 	if err != nil {
-		return "", errors.Wrapf(err, "Failed to marshal request to JSON")
+		return nil, errors.Wrapf(err, "Failed to marshal request to JSON")
 	}
 	body := bytes.NewReader(payload)
 	hReq, err := http.NewRequest(http.MethodPost, SERPEndpoint, body)
 	if err != nil {
-		return "", errors.Wrapf(err, "Failed to create new request")
+		return nil, errors.Wrapf(err, "Failed to create new request")
 	}
 	hReq.Header.Set("Authorization", "Bearer "+c.Token)
 	hReq.Header.Set(ContentHeader, JSONContentType)
 	resp, err := http.DefaultClient.Do(hReq)
 	if err != nil || resp.StatusCode != http.StatusOK {
-		return "", errors.Wrapf(err, "SERP request failed with code %v", resp.StatusCode)
+		return nil, errors.Wrapf(err, "SERP request failed with code %v", resp.StatusCode)
 	}
 
-	results, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", errors.Wrapf(err, "Failed to read response body")
+	d := json.NewDecoder(resp.Body)
+	results := &SERPResults{}
+	if err := d.Decode(results); err != nil {
+		return nil, errors.Wrapf(err, "Failed to read response body")
 	}
-	fmt.Printf("Response:\n%+v", string(results))
-	return string(results), nil
+	return results, nil
 }
