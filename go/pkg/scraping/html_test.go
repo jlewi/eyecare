@@ -1,7 +1,6 @@
 package scraping
 
 import (
-	"fmt"
 	"github.com/google/go-cmp/cmp"
 	"os"
 	"path/filepath"
@@ -71,7 +70,6 @@ VA/QTC eye provider- Veteran's compensation
 			}
 
 			actual := TextFromHtml(b)
-			fmt.Printf("%v\n", actual)
 			if d := cmp.Diff(c.expected, actual); d != "" {
 				t.Errorf("Unexpected diff:\n%v", d)
 			}

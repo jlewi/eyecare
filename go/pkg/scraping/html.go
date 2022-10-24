@@ -34,7 +34,7 @@ func TextFromHtml(reader io.Reader) string {
 
 			TxtContent := strings.TrimSpace(html.UnescapeString(string(domDocTest.Text())))
 			// Remove some unprintable characters. These could potentially interfere
-			// with string matching. 
+			// with string matching.
 			TxtContent = zerowidth.RemoveZeroWidthCharacters(TxtContent)
 			TxtContent = strings.Replace(TxtContent, SoftHyphen, "", -1)
 			if len(TxtContent) > 0 {
