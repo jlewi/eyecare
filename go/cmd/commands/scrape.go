@@ -1,16 +1,11 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/go-logr/zapr"
-	"github.com/jlewi/eyecare/go/api"
-	"github.com/jlewi/eyecare/go/pkg/helpers"
 	"github.com/jlewi/eyecare/go/pkg/scraping"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
-	"io"
 	"os"
 	"path/filepath"
 )
@@ -25,22 +20,9 @@ func NewScrapeCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			log := zapr.NewLogger(zap.L())
 			err := func() error {
-				f, err := os.Open(input)
-				defer helpers.DeferIgnoreError(f.Close)
+				sites, err := scraping.ReadFile(input)
 				if err != nil {
-					return errors.Wrapf(err, "Failed to read file %v", input)
-				}
-				d := json.NewDecoder(f)
-				sites := make([]api.Site, 0, 20)
-				for {
-					t := &api.Site{}
-					if err := d.Decode(t); err != nil {
-						if err == io.EOF {
-							break
-						}
-						return errors.Wrapf(err, "Failed to decode site")
-					}
-					sites = append(sites, *t)
+					return err
 				}
 				log.Info("Read sites", "count", len(sites), "file", input)
 				scraper := &scraping.Scraper{

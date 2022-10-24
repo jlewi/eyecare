@@ -1,6 +1,25 @@
 package scraping
 
-import "strings"
+import (
+	"net/url"
+	"strings"
+)
+
+// URLToDomain normalizes the URL to a domain.
+// Returns empty string on error.
+func URLToDomain(u string) string {
+	p, err := url.Parse(u)
+	if err != nil {
+		return ""
+	}
+
+	host := p.Host
+	if p.Scheme == "" {
+		host = u
+	}
+
+	return HostToDomain(host)
+}
 
 // HostToDomain gets the domain from the hostname.
 func HostToDomain(host string) string {

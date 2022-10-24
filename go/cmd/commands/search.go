@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-logr/zapr"
-	"github.com/jlewi/eyecare/go/pkg/helpers"
 	"github.com/jlewi/eyecare/go/pkg/nimbleway"
+	"github.com/jlewi/eyecare/go/pkg/scraping"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -52,21 +52,8 @@ func NewSearchCmd() *cobra.Command {
 					return errors.Wrapf(err, "Failed to convert SERPResults to a list of sites")
 				}
 
-				// Emit it as JSONL
-				f, err := os.Create(outFile)
-				defer helpers.DeferIgnoreError(f.Close)
-				if err != nil {
-					return errors.Wrapf(err, "Failed to create file: %v", outFile)
-				}
 				log.Info("Writing results to file", "file", outFile)
-
-				e := json.NewEncoder(f)
-				for _, t := range sites {
-					if err := e.Encode(t); err != nil {
-						return errors.Wrapf(err, "Failed to encode the site")
-					}
-				}
-				return nil
+				return scraping.WriteFile(outFile, sites)
 			}()
 			if err != nil {
 				fmt.Fprintf(os.Stdout, "Failed with error:\n%+v", err)
