@@ -33,6 +33,7 @@ func main() {
 	rootCmd.AddCommand(commands.NewScrapeCmd())
 	rootCmd.AddCommand(commands.NewSearchCmd())
 	rootCmd.AddCommand(commands.NewDomainsCmd())
+	rootCmd.AddCommand(commands.NewProcessCmd())
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Printf("Command failed with error: %+v", err)
 		os.Exit(1)

@@ -7,6 +7,7 @@ type Site struct {
 	IsOptometrist            bool
 	CornealTopography        bool
 	CornealTopographyMention string
+	Results                  []Result `json:"results"`
 }
 
 // Result is a found match
