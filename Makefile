@@ -9,7 +9,7 @@ build-dir:
 	mkdir -p $(BUILD)
 
 build-go: build-dir
-	CGO_ENABLED=0 go build -o $(BUILD)/eycare github.com/jlewi/eyecare/go/cmd/
+	CGO_ENABLED=0 go build -o $(BUILD)/eyecare github.com/jlewi/eyecare/go/cmd/
 
 tidy-go:
 	gofmt -s -w .
